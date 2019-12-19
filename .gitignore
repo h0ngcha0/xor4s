@@ -1,0 +1,13 @@
+target/
+project/project/
+project/target/
+.ensime
+.idea
+.idea_modules/
+logs/
+.ensime_cache
+ensime.sbt
+yarn-error.log
+.yarn
+.bloop
+.metals
