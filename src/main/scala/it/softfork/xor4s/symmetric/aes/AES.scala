@@ -40,6 +40,26 @@ object AES {
     transpose(state).flatten
   }
 
+  def decrypt(input: Array[Byte], key: Array[Array[Byte]]): Array[Byte] = {
+    val state = transpose(input.grouped(4).toArray)
+
+    addRoundKey(state, key(AES_128_ROUNDS))
+
+    for (i <- 1 to 9) {
+      ShiftRows.inverse(state)
+      SubBytes.inverse(state)
+      addRoundKey(state, key(AES_128_ROUNDS - i))
+      MixColumns.inverse(state)
+    }
+
+    ShiftRows.inverse(state)
+    SubBytes.inverse(state)
+    addRoundKey(state, key(0))
+    // No MixColumns.inverse(state) in the last round
+
+    transpose(state).flatten
+  }
+
   private def addRoundKey(state: Array[Array[Byte]], key: Array[Byte]): Array[Array[Byte]] = {
     for (i <- 0 to 3) {
       for (j <- 0 to 3) {
