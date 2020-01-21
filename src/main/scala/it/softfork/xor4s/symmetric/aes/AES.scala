@@ -3,9 +3,34 @@ package it.softfork.xor4s.symmetric.aes
 import it.softfork.xor4s.utils.Implicits._
 
 object AES {
+  val AES_BLOCK_SIZE = 16
   val AES_128_ROUNDS = 10
   // val AES_192_ROUNDS = 12
   // val AES_256_ROUNDS = 14
+
+  def encryptCbc(input: Array[Byte], key: Array[Byte], iv: Array[Byte]): Array[Byte] = {
+    assert(input.length % AES_BLOCK_SIZE == 0, s"Input length should be the multiples of $AES_128_ROUNDS")
+
+    val blocks = input.grouped(AES_BLOCK_SIZE).toArray
+    val keys = key.grouped(AES_128_ROUNDS).toArray // Ten rounds of keys
+
+    blocks.foldLeft(iv) {
+      case (acc, block) =>
+        encrypt(xor(acc, block), keys)
+    }
+  }
+
+  def decryptCbc(input: Array[Byte], key: Array[Byte], iv: Array[Byte]): Array[Byte] = {
+    assert(input.length % AES_BLOCK_SIZE == 0, s"Input length should be the multiples of $AES_128_ROUNDS")
+
+    val blocks = input.grouped(AES_BLOCK_SIZE).toArray
+    val keys = key.grouped(AES_128_ROUNDS).toArray // Ten rounds of keys
+
+    blocks.foldLeft(iv) {
+      case (acc, block) =>
+        xor(decrypt(block, keys), acc)
+    }
+  }
 
   // AES only supports 128 bit key
   // Input block is 16 bytes (128 bits) long
@@ -72,5 +97,11 @@ object AES {
 
   private def transpose(matrix: Array[Array[Byte]]): Array[Array[Byte]] = {
     matrix.head.indices.map(i => matrix.map(_(i))).toArray
+  }
+
+  private def xor(x: Array[Byte], y: Array[Byte]): Array[Byte] = {
+    assert(x.length == y.length)
+
+    (x zip y).map { case (a, b) => (a ^ b).toByte }
   }
 }
