@@ -9,7 +9,7 @@ object AES {
   // val AES_256_ROUNDS = 14
 
   def encryptCbc(input: Array[Byte], key: Array[Byte], iv: Array[Byte]): Array[Byte] = {
-    assert(input.length % AES_BLOCK_SIZE == 0, s"Input length should be the multiples of $AES_128_ROUNDS")
+    assert(input.length % AES_BLOCK_SIZE == 0, s"Input length should be the multiples of $AES_BLOCK_SIZE")
 
     val blocks = input.grouped(AES_BLOCK_SIZE).toArray
     val keys = key.grouped(AES_128_ROUNDS).toArray // Ten rounds of keys
@@ -21,7 +21,7 @@ object AES {
   }
 
   def decryptCbc(input: Array[Byte], key: Array[Byte], iv: Array[Byte]): Array[Byte] = {
-    assert(input.length % AES_BLOCK_SIZE == 0, s"Input length should be the multiples of $AES_128_ROUNDS")
+    assert(input.length % AES_BLOCK_SIZE == 0, s"Input length should be the multiples of $AES_BLOCK_SIZE")
 
     val blocks = input.grouped(AES_BLOCK_SIZE).toArray
     val keys = key.grouped(AES_128_ROUNDS).toArray // Ten rounds of keys
@@ -53,6 +53,7 @@ object AES {
 
     // In AES with 128 bits block size (16 bytes), there should be 10 transformation rounds (Nr = 10)
     // and 11 (Nr + 1) round key, each of which is 128 bits long.
+    // ^ This is wrong, it also depends on the key size
     addRoundKey(state, key(0))
 
     for (i <- 1 to AES_128_ROUNDS) {
@@ -83,6 +84,16 @@ object AES {
     // No MixColumns.inverse(state) in the last round
 
     transpose(state).flatten
+  }
+
+  def aesKeySetup(key: Array[Byte]): Array[Array[Byte]] = {
+    key.length match {
+      case 128 =>
+    }
+    val Nk = 4 // 128 bits key
+    val Nr = AES_128_ROUNDS
+
+
   }
 
   private def addRoundKey(state: Array[Array[Byte]], key: Array[Byte]): Array[Array[Byte]] = {
