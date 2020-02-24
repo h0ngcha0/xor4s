@@ -25,7 +25,7 @@ scalacOptions := Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.typelevel" %% "cats-core" % "2.1.0-RC1",
+  "org.typelevel" %% "cats-core" % "2.1.0",
   "com.github.mpilquist" %% "simulacrum" % "0.19.0",
   "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
   "ch.qos.logback" % "logback-classic" % "1.2.3",
