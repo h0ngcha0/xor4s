@@ -31,7 +31,7 @@ libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.2.3",
   "org.scalatest" %% "scalatest" % "3.0.8" % "test",
   "com.madgag.spongycastle" % "core" % "1.58.0.0" % "test",
-  "com.lihaoyi" %% "pprint" % "0.5.6"
+  "com.lihaoyi" %% "pprint" % "0.5.9"
 )
 
 resolvers ++= Seq(
