@@ -29,7 +29,7 @@ libraryDependencies ++= Seq(
   "com.github.mpilquist" %% "simulacrum" % "0.19.0",
   "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
   "ch.qos.logback" % "logback-classic" % "1.2.3",
-  "org.scalatest" %% "scalatest" % "3.0.8" % "test",
+  "org.scalatest" %% "scalatest" % "3.1.1" % "test",
   "com.madgag.spongycastle" % "core" % "1.58.0.0" % "test",
   "com.lihaoyi" %% "pprint" % "0.5.6"
 )
